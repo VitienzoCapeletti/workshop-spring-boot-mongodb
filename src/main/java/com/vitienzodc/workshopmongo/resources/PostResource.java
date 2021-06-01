@@ -3,6 +3,7 @@ package com.vitienzodc.workshopmongo.resources;
 import com.vitienzodc.workshopmongo.domain.Post;
 import com.vitienzodc.workshopmongo.domain.User;
 import com.vitienzodc.workshopmongo.dto.UserDTO;
+import com.vitienzodc.workshopmongo.resourcesUtil.URL;
 import com.vitienzodc.workshopmongo.services.PostService;
 import com.vitienzodc.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,13 @@ public class PostResource {
     public ResponseEntity<Post> findById(@PathVariable String id) {
         Post obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @RequestMapping(value = "/titlesearch", method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) {
+        text = URL.decodeParam(text);
+        List<Post> list = service.finByTitle(text);
+        return ResponseEntity.ok().body(list);
 
     }
 
