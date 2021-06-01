@@ -1,5 +1,6 @@
 package com.vitienzodc.workshopmongo.resources;
 
+import com.vitienzodc.workshopmongo.domain.Post;
 import com.vitienzodc.workshopmongo.domain.User;
 import com.vitienzodc.workshopmongo.dto.UserDTO;
 import com.vitienzodc.workshopmongo.services.UserService;
@@ -7,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +54,12 @@ public class UserResource {
         User obj = service.fromDTO(objDto);
         obj.setId(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
+
     }
 }
